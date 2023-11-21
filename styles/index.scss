@@ -1,0 +1,147 @@
+.index {
+  padding-bottom: 16vw;
+  overflow: hidden;
+  
+  .top_img {
+    height: 65.866666vw;
+    position: relative;
+    
+    img {
+      position: absolute;
+
+      &:nth-child(1) {
+        width: 77.866666vw;
+        bottom: 0;
+        left: -13.6vw;
+        z-index: 2;
+      }
+
+      &:nth-child(2) {
+        width: 79.733333vw;
+        bottom: 2.133333vw;
+        right: -20.8vw;
+        z-index: 3;
+      }
+
+      &:nth-child(3) {
+        width: 25vw;
+        top: -10vw;
+        right: 30vw;
+        z-index: 1;
+      }
+    }
+  }
+
+  .logo {
+    width: 41.866666vw;
+    margin: -2.666666vw auto 0;
+  }
+
+  .welcome_text {
+    margin-bottom: 3.2vw;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+    color: #af1e2d;
+  }
+
+  .confirm_text {
+    text-align: center;
+    line-height: 1.62;
+    letter-spacing: 1.3px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #808080;
+  }
+
+  .table_number {
+    text-align: center;
+    letter-spacing: 6.8px;
+    font-size: 68px;
+    font-weight: 900;
+    color: #808080;
+  }
+
+  .confirm {
+    width: 46.4vw;
+    height: 16.8vw;
+    margin: 0 auto 6.666666vw auto;
+    line-height: 16.8vw;
+    text-align: center;
+    border-radius: 15px;
+    border: solid 1px #707070;
+    background-color: #f7b500;
+
+    a {
+      letter-spacing: 0.81px;
+      font-size: 30px;
+      font-weight: 900;
+      color: #0c0a0b;
+    }
+  }
+
+  .notice {
+    > ul {
+      > li {
+        padding: 0 6.666666vw;
+
+        .title {
+          margin-bottom: 1.066666vw;
+          line-height: 1.14;
+          letter-spacing: 1.4px;
+          font-size: 14px;
+          font-weight: 900;
+        }
+
+        > ul {
+          > li {
+            padding: 0 3.733333vw;
+            margin-bottom: 3.2vw;
+            line-height: 1.14;
+            letter-spacing: 1.4px;
+            font-size: 14px;
+            font-weight: 300;
+
+            &.right {
+              text-align: right;
+            }
+
+            .icon {
+              position: relative;
+
+              img {
+                width: 6.24vw;
+                position: absolute;
+                bottom: -30%;
+              }
+            }
+          }
+        }
+
+        .divider_img {
+          margin-bottom: 4.346666vw;
+          text-align: center;
+
+          img {
+            width: 74.986666vw;
+          }
+        }
+
+        &:nth-child(1) {
+          ul {
+            li {
+              position: relative;
+
+              &:before {
+                content: url('/img/icon_1.png');
+                position: absolute;
+                bottom: -5vw;
+                left: -3vw;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

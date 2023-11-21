@@ -1,0 +1,67 @@
+.pay {
+  width: 100vw;
+  overflow: hidden;
+
+  .header {
+    height: 26.6667vw;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .logo {
+      width: 21.066666vw;
+      position: absolute;
+      top: 2.933333vw;
+      left: 6.4vw;
+    }
+
+    .title {
+      margin-left: 31.733333vw;
+      font-size: 26px;
+      font-weight: 500;
+      color: #2d2926;
+    }
+
+    .img {
+      position: absolute;
+      top: -7.36vw;
+      right: -2.08vw;
+    }
+  }
+
+  .methods {
+    padding: 0 11.733333vw;
+
+    ul {
+      li {
+        margin-bottom: 8.533333vw;
+        position: relative;
+
+        .text {
+          position: absolute;
+          top: 50%;
+          right: 4.8vw;
+          transform: translateY(-50%);
+          font-size: 26px;
+          font-weight: 500;
+          color: #2d2926;
+        }
+
+        .back {
+          a {
+            margin-left: auto;
+            width: 31.466666vw;
+            height: 9.866666vw;
+            border-radius: 2.133333vw;
+            border: solid 1px #707070;
+            background-color: #e4e4e4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
