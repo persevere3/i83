@@ -41,7 +41,6 @@
         border-radius: 2.933333vw;
         border: solid 1px #d6d5d5;
         display: flex;
-        align-items: center;
         position: relative;
 
         .close {
@@ -59,12 +58,13 @@
 
           .name {
             margin-left: 9.066666vw;
-            margin-bottom: 2.5vw;
+            margin-bottom: auto;
             font-weight: 900;
           }
           
           .optionList {
             margin-left: 1.6vw;
+            margin-top: 2.5vw;
 
             > ul {
               display: flex;
@@ -140,6 +140,7 @@
         .img {        
           flex-grow: 0;
           flex-shrink: 0;
+          align-self: center;
           width: 21.333333vw;
           height: 21.3333vw;
           border-radius: 3.733333vw;
