@@ -110,7 +110,6 @@
           border-radius: 2.933333vw;
           border: solid 1px #d6d5d5;
           display: flex;
-          align-items: center;
 
           .info {
             flex-grow: 1;
@@ -126,13 +125,13 @@
               align-items: center;
   
               .name {
-                width: 50%;
+                flex: 1 1;
                 font-size: 16px;
                 font-weight: 900;
                 color: #2d2926;
               }
               .origin {
-                width: 50%;
+                flex: 1 1;
                 font-size: 12px;
                 font-weight: 300;
                 color: #707070;
@@ -150,6 +149,7 @@
           .img {
             flex-grow: 0;
             flex-shrink: 0;
+            align-self: center;
             width: 21.333333vw;
             height: 21.3333vw;
             border-radius: 3.733333vw;
