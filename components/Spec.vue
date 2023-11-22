@@ -123,7 +123,7 @@
 
   // 
   const comment = ref('')
-  const mealNumber = ref(0)
+  const mealNumber = ref(1)
 
   // 有 id => update(cartItems取資訊)
   if(id) {
