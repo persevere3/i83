@@ -135,8 +135,9 @@
               &:before {
                 content: url('/img/icon_1.png');
                 position: absolute;
-                bottom: -5vw;
+                top: 50%;
                 left: -3vw;
+                transform: translateY(-50%);
               }
             }
           }
