@@ -153,13 +153,15 @@
             align-self: center;
             width: 21.333333vw;
             height: 21.3333vw;
-            border-radius: 3.733333vw;
-            border: solid 1px #707070;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
             position: relative;
   
+            img {
+              width: 100%;
+              height: 100%;
+              border-radius: 3.733333vw;
+              border: solid 1px #707070;
+            }
+
             .icon {
               width: 6.533333vw;
               height: 6.533333vw;
