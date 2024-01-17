@@ -12,29 +12,30 @@
 
     <div class="cartItems">
       <ul>
-        <li v-for="item in cartItems" :key="item">
+        <li v-for="(item, index) in cartItems" :key="`${index}-${item.id}`">
           <div class="close" @click="deleteCartItem(item)"> <img src="/img/close.png" alt=""> </div>
           <div class="info">
-            <div class="name"> {{ item.name }} </div>
+            <div class="name"> {{ item.mealName }} </div>
             <div class="optionList">
               <ul>
-                <li v-for="option in item.options" :key="option" v-show="option.activeOption">
-                  <template v-if="options_obj[option.category].number < 2"> {{ option.activeOption }} </template>
-                  <template v-else> {{ option.activeOption.join(' ') }} </template>
-                </li>
+                <template v-for="item2 in item.selectList" :key="item2.id">
+                  <li v-for="item3 in item2.activeOptionList" :key="item3"> {{ item3 }} </li>
+                </template>
               </ul>
             </div>
 
-            <div class="comment"> {{ item.comment }} </div>
+            <div class="comment"> {{ item.note }} </div>
 
             <div class="price_update">
-              <div class="price"> ${{ item.price }} x {{ item.number }} </div>
+              <div class="price"> ${{ item.price }} x {{ item.count }} </div>
               <div class="update"> 
                 <nuxt-link :to="`/spec-update/${item.id}`"> 修改訂單 </nuxt-link>
               </div>
             </div>
           </div>
-          <div class="img" :style="{'background-image' : `url(/img/meals/${item.name}.jpg)`}"> </div>
+          <div class="img"> 
+            <img :src="item.image" alt="">
+          </div>
         </li>
       </ul>
     </div>
@@ -55,11 +56,10 @@
 </template>
 
 <script setup>
-  let { options_obj } = storeToRefs(useMealsStore())
   let { cartItems } = storeToRefs(useCartStore())
 
   const totalPrice = computed(() => {
-    return cartItems.value.reduce((accumulator, currentValue) => accumulator + currentValue.price * currentValue.number, 0);
+    return cartItems.value.reduce((accumulator, currentValue) => accumulator + currentValue.price * currentValue.count, 0);
   })
 
   function deleteCartItem(item) {

@@ -39,13 +39,13 @@
     height: 50.4vw;
     margin: 0 auto;
     margin-bottom: 2.666666vw;
+    display: flex;
+    justify-content: center;
 
-    border-radius: 7.466666vw;
-    border: solid 1px #707070;
-
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
+    img {
+      width: auto;
+      height: 100%;
+    }
   }
 
   .info {
@@ -139,7 +139,7 @@
           }
         }
 
-        &.comment {
+        &.note {
           .name, .notice {
             margin-bottom: 1.866666vw;
           }
