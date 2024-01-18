@@ -29,12 +29,35 @@
 </template>
 
 <script setup>
-  let { modalText } = storeToRefs(useCommonStore())
-  let { cartItems } = storeToRefs(useCartStore())
+  import * as Order from "@/apis/order"
+
+  let { tableInfo, modalText } = storeToRefs(useCommonStore())
+  let { cartItems, totalPrice } = storeToRefs(useCartStore())
 
   function pay () {
-    modalText.value = '您選擇現金支付 請至櫃台結帳';
-    cartItems.value.splice(0, cartItems.value.length)
-    useRouter().push('/')
+    const data = {
+      tableId: tableInfo.value.id,
+      token: tableInfo.value.orderToken,
+
+      storeName: tableInfo.value.storeName,
+      tableNumber: tableInfo.value.number,
+      payMethod: '0',
+      total: totalPrice.value,
+      mealList: cartItems.value.map(item => {
+        return {
+          id: item.id,
+          mealName: item.mealName,
+          price: item.price,
+          count: item.count,
+          selectList: item.selectList,
+          note: item.note
+        }
+      })
+    }
+    Order.postDataApi(data).then((res) => {
+      modalText.value = '您選擇現金支付 請至櫃台結帳';
+      cartItems.value = []
+      useRouter().push('/')
+    })
   }
 </script>

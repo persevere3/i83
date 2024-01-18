@@ -56,11 +56,7 @@
 </template>
 
 <script setup>
-  let { cartItems } = storeToRefs(useCartStore())
-
-  const totalPrice = computed(() => {
-    return cartItems.value.reduce((accumulator, currentValue) => accumulator + currentValue.price * currentValue.count, 0);
-  })
+  let { cartItems, totalPrice } = storeToRefs(useCartStore())
 
   function deleteCartItem(item) {
     let index = cartItems.value.findIndex(cartItem => cartItem.id === item.id)
