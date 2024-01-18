@@ -2,8 +2,8 @@ import axios from 'axios';
 
 let withCredentials = true
 
-export const formRequest = axios.create({
+export const jsonRequest = axios.create({
   baseURL: "/api",
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  headers: { 'Content-Type': 'application/json' },
   withCredentials
 })

@@ -1,8 +1,8 @@
-import { formRequest } from "@/utils/https"
+import { jsonRequest } from "@/utils/https"
 
 /** 查 */
 export function getDataApi() {
-  return formRequest({
+  return jsonRequest({
     url: "Tables",
     method: "get",
   })
