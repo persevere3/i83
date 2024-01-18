@@ -13,7 +13,7 @@
     <div class="logo"> <img src="/img/logo.png" alt=""> </div>
     <div class="welcome_text"> WELCOME TO i83 </div>
     <div class="confirm_text"> 請確認桌號是否正確 </div>
-    <div class="table_number"> {{ tableNumber }} </div>
+    <div class="table_number"> {{ tableInfo.number }} </div>
     <div class="confirm"> <nuxt-link to="/list"> 開始點餐 </nuxt-link> </div>
 
     <div class="notice">
@@ -64,13 +64,12 @@
 <script setup>
   import * as Table from "@/apis/table"
 
-  const { tableNumber, token } = storeToRefs(useCommonStore())
+  const { tableInfo } = storeToRefs(useCommonStore())
   const route = useRoute()
   const queryToken = route.query.queryToken
   if(queryToken) {
-    token.value = queryToken
     Table.getDataApi().then((res) => {
-      tableNumber.value = res.data.find(item => item.orderToken === token.value).number || ""
+      tableInfo.value = res.data.find(item => item.orderToken === queryToken) || {}
     })
   }
 </script>
