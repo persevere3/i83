@@ -8,7 +8,9 @@ export const useMealsStore = defineStore('meals', () => {
     Category.getDataApi().then((res) => {
       res.data.forEach(item => {
         item.products.forEach(item2 => {
-          item2.image = 'http://192.168.6.239' + item2.image
+          if(process.env.NODE_ENV === 'development') {
+            item2.image = 'http://192.168.6.239' + item2.image
+          }
           item2.mealTextList = JSON.parse(item2.mealTextList)
           item2.selectList = JSON.parse(item2.selectList).map(item3 => {
             return {

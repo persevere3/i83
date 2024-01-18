@@ -32,19 +32,23 @@
     position: absolute;
     top: 6vw;
     right: 11.466666vw;
+    z-index: 1;
   }
 
   .img {
-    width: 79.466666vw;
-    height: 50.4vw;
     margin: 0 auto;
     margin-bottom: 2.666666vw;
-    display: flex;
-    justify-content: center;
+    
+    width: 79.466666vw;
+    height: 50.4vw;
+    position:relative;
 
     img {
-      width: auto;
-      height: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: cover;
+      border-radius: 14px;
+      border: solid 1px #707070;
     }
   }
 
