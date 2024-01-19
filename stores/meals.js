@@ -7,6 +7,7 @@ export const useMealsStore = defineStore('meals', () => {
   const getCategoryMealData = () => {
     Category.getDataApi().then((res) => {
       res.data.forEach(item => {
+        item.products = item.products.filter(item2 => item2.enable)
         item.products.forEach(item2 => {
           if(process.env.NODE_ENV === 'development') {
             item2.image = 'http://192.168.6.239' + item2.image
