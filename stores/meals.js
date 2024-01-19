@@ -10,6 +10,8 @@ export const useMealsStore = defineStore('meals', () => {
         item.products.forEach(item2 => {
           if(process.env.NODE_ENV === 'development') {
             item2.image = 'http://192.168.6.239' + item2.image
+          } else {
+            item2.image = 'https://preview.uniqcarttest.com' + item2.image
           }
           item2.mealTextList = JSON.parse(item2.mealTextList)
           item2.selectList = JSON.parse(item2.selectList).map(item3 => {
