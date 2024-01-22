@@ -1,18 +1,16 @@
 import { jsonRequest } from "@/utils/https"
 
 /** 增 */
-export function postDataApi(data) {
+export function postDataApi(originData) {
   return jsonRequest({
-    url: `OrderInfos?tableId=${data.tableId}&token=${data.token}`,
+    url: `OrderInfos?tableId=${originData.tableId}&token=${originData.token}`,
     method: "post",
-    data: data.map(item => {
-      return {
-        storeName: item.storeName,
-        tableNumber: item.tableNumber,
-        mealList: item.mealList,
-        payMethod: item.payMethod,
-        total: item.total
-      }
-    }),
+    data: {
+      storeName: originData.storeName,
+      tableNumber: originData.tableNumber,
+      mealList: originData.mealList,
+      payMethod: originData.payMethod,
+      total: originData.total
+    }
   })
 }
