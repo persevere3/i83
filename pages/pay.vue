@@ -35,7 +35,7 @@
   let { cartItems, totalPrice } = storeToRefs(useCartStore())
 
   function pay () {
-    if(!tableInfo.value.id || tableInfo.value.orderToken ) modalText.value = '請先掃描 QR-code'
+    if(!tableInfo.value.id || !tableInfo.value.orderToken ) modalText.value = '請先掃描 QR-code'
     const data = {
       tableId: tableInfo.value.id,
       token: tableInfo.value.orderToken,
