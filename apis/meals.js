@@ -1,9 +1,9 @@
 import { jsonRequest } from "@/utils/https"
 
 /** 查 */
-export function getDataApi() {
+export function getDataApi(storeId) {
   return jsonRequest({
-    url: "Tables",
+    url: `Products?storeId=${storeId}`,
     method: "get",
   })
 }

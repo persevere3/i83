@@ -1,40 +1,48 @@
 import * as Category from "@/apis/category"
+import * as Meals from "@/apis/meals"
 
 export const useMealsStore = defineStore('meals', () => {
-  const categoryMeals = ref([])
+  const { tableInfo } = storeToRefs(useCommonStore())
+  
+  const categoryList = ref([])
   const activeCategory = ref({})
 
-  const getCategoryMealData = () => {
-    Category.getDataApi().then((res) => {
-      res.data.forEach(item => {
-        item.products = item.products.filter(item2 => item2.enable)
-        item.products.forEach(item2 => {
-          if(process.env.NODE_ENV === 'development') {
-            item2.image = 'http://192.168.6.239' + item2.image
-          } else {
-            item2.image = 'https://preview.uniqcarttest.com' + item2.image
-          }
-          item2.mealTextList = JSON.parse(item2.mealTextList)
-          item2.selectList = JSON.parse(item2.selectList).map(item3 => {
-            return {
-              id: item3.Id,
-              selectName: item3.SelectName,
-              showOptionList: item3.ShowOptionList,
-              activeOptionList: [],
-              max: item3.Max,
-              min: item3.Min,
-            }
-          })
-        })
+  const mealList = ref([])
+
+  const getCategoryData = () => {
+    Category.getDataApi(tableInfo.value.storeId).then((res) => {
+      categoryList.value = res.data
+      categoryList.value.unshift({
+        id: 0,
+        name: "全部餐點"
       })
-      categoryMeals.value = res.data
-      activeCategory.value = categoryMeals.value[1]
+      if(!activeCategory.value.id) activeCategory.value = JSON.parse(JSON.stringify(categoryList.value[0]))
     })
   }
 
+  const getMealData = () => {
+    Meals.getDataApi(tableInfo.value.storeId).then((res) => {
+      let data = res.data
+      data = data.filter(item => item.enable)
+      data.forEach(item => {
+        item.image = 'https://preview.uniqcarttest.com' + item.image
+        item.selectList.forEach(item2 => {
+          item2.activeOptionList = []
+        })
+      })
+      mealList.value = data
+    })
+  }
+
+  const getCategoryMealData = () => {
+    getCategoryData()
+    getMealData()
+  }
+
   return {
-    categoryMeals,
+    categoryList,
     activeCategory,
+    mealList,
     getCategoryMealData
   }
 })

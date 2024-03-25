@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         "/api": {
-          target: "http://192.168.6.239",
+          target: "https://preview.uniqcarttest.com",
           ws: true,
           changeOrigin: true,
         },

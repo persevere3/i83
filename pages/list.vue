@@ -7,14 +7,14 @@
     <div class="top">
       <div class="categories">
         <ul>
-          <li v-for="item in categoryMeals" :key="item.id" @click="selectCategory(item)">
+          <li v-for="item in categoryList" :key="item.id" @click="selectCategory(item)">
             <img class="active_img" src="/img/logo.png" v-if="item.id === activeCategory.id" alt=""> 
             {{ item.name }} 
           </li>
         </ul>
       </div>
 
-      <div class="text_order" v-if="activeCategory.id">
+      <div class="text_order" v-if="activeCategory.name">
         <div class="active_category_text"> {{ activeCategory.text }} </div>
         <div class="check_order">
           <nuxt-link to="/cart">
@@ -28,9 +28,9 @@
       </div>
     </div>
 
-    <div class="meals" v-if="activeCategory.id">
+    <div class="meals" v-if="activeCategory.name">
       <ul>
-        <li v-for="item in activeCategory.products" :key="item.id">
+        <li v-for="item in categoryMealList" :key="item.id">
           <nuxt-link :to="`/spec-add/${item.id}`">  
             <div class="info">
               <div class="name_origin">
@@ -59,13 +59,20 @@
 </template>
 
 <script setup>
-  let { categoryMeals, activeCategory } = storeToRefs(useMealsStore())
+  let { categoryList, activeCategory, mealList } = storeToRefs(useMealsStore())
   let { getCategoryMealData } = useMealsStore()
   getCategoryMealData()
-
-  let { cartItems } = storeToRefs(useCartStore())
   
+  let { cartItems } = storeToRefs(useCartStore())
+
+  const categoryMealList = computed(() => {
+    return mealList.value.filter(item => {
+      const mealCategoryIdList = item.category.map(item2 => item2.id)
+      return activeCategory.value.id === 0 || mealCategoryIdList.includes(activeCategory.value.id)
+    })
+  })
+
   const selectCategory = (item) => {
-    activeCategory.value = item
+    activeCategory.value = JSON.parse(JSON.stringify(item))
   }
 </script>

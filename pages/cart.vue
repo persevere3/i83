@@ -19,7 +19,7 @@
             <div class="optionList">
               <ul>
                 <template v-for="item2 in item.selectList" :key="item2.id">
-                  <li v-for="item3 in item2.activeOptionList" :key="item3"> {{ item3 }} </li>
+                  <li v-for="item3 in item2.activeOptionList" :key="item3"> {{ item3.title }} </li>
                 </template>
               </ul>
             </div>
@@ -27,7 +27,10 @@
             <div class="comment"> {{ item.note }} </div>
 
             <div class="price_update">
-              <div class="price"> ${{ item.price }} x {{ item.count }} </div>
+              <div class="price">
+                <div> ${{ cartItemsUnitPriceList[index] }} x {{ item.count }}  </div>
+              
+              </div>
               <div class="update"> 
                 <nuxt-link :to="`/spec-update/${item.id}`"> 修改訂單 </nuxt-link>
               </div>
@@ -40,8 +43,12 @@
       </ul>
     </div>
 
+    <div class="total_price" v-if="birthBonus">
+      <div class="text"> 生日優惠:  $ {{ birthBonus }}  </div> 
+    </div>
+
     <div class="total_price">
-      <div class="text"> 共計  $  {{ totalPrice }}  </div> 
+      <div class="text"> 共計  $ {{ totalPrice }}  </div> 
     </div>
 
     <div class="button_group">
@@ -56,7 +63,7 @@
 </template>
 
 <script setup>
-  let { cartItems, totalPrice } = storeToRefs(useCartStore())
+  let { cartItems, cartItemsUnitPriceList, totalPrice, birthBonus } = storeToRefs(useCartStore())
 
   function deleteCartItem(item) {
     let index = cartItems.value.findIndex(cartItem => cartItem.id === item.id)

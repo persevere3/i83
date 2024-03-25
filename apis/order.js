@@ -10,7 +10,8 @@ export function postDataApi(originData) {
       tableNumber: originData.tableNumber,
       mealList: originData.mealList,
       payMethod: originData.payMethod,
-      total: originData.total
+      total: originData.total,
+      birthdayBonus: originData.birthdayBonus
     }
   })
 }

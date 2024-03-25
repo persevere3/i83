@@ -31,12 +31,14 @@
               <div v-else> 請選擇 <span> {{ item.min }} ~ {{ item.max }} </span> 個 </div>
             </div>
           </div>
-          
           <div class="optionList">
             <ul>
-              <li v-for="item2 in item.showOptionList" :key="item2" @click="select(item, item2)"> 
-                <div class="icon" :class="{active : item.activeOptionList.indexOf(item2) > -1}"> </div>
-                {{ item2 }}
+              <li v-for="item2 in item.showOptionList" :key="item2.title" @click="select(item, item2)"> 
+                <div class="icon" :class="{active : item.activeOptionList.map(item3 => item3.title).includes(item2.title)}" ></div>
+                <div class="optionText">
+                  <div> {{ item2.title }} </div>
+                  <div v-if="item2.price > 0"> (+ {{ item2.price }}) </div>
+                </div>
               </li>
             </ul>
           </div>
@@ -66,7 +68,7 @@
 </template>
 
 <script setup>
-  let { categoryMeals } = storeToRefs(useMealsStore())
+  let { mealList } = storeToRefs(useMealsStore())
   let { getCategoryMealData } = useMealsStore()
   getCategoryMealData()
 
@@ -79,31 +81,59 @@
   const note = ref('')
   const count = ref(1)
 
-  // isAddSpec: true => add(categoryMeal取資訊)，false => update(cartItems取資訊)
+  // isAddSpec: true => add(mealList取資訊)，false => update(cartItems取資訊)
   let meal = ref({})
-  watch(categoryMeals, () => {
-    if(categoryMeals.value.length) {
+  watch(mealList, () => {
+    if(mealList.value.length) {
       if(isAddSpec) {
-        categoryMeals.value.forEach(item => {
-          item.products.forEach(item2 => {
-            if(item2.id == id) {
-              meal.value = JSON.parse(JSON.stringify(item2))
-            }
-          })
-        })
+        meal.value = JSON.parse(JSON.stringify(mealList.value.find((item) => item.id == id)))
       } else {
-        meal.value = cartItems.value.find((item) => item.id == id)
+        meal.value = JSON.parse(JSON.stringify(cartItems.value.find((item) => item.id == id)))
         note.value = meal.value.note
         count.value = meal.value.count
       }
     }
+    // test relation
+    // let select = meal.value.selectList.find(item => item.id === 3)
+    // select.relation = {
+    //   '沙朗牛': [4]
+    // }
+
+    // meal.value.selectList.forEach(item => {
+    //   if(!item.relation) return
+    //   const array = Object.entries(item.relation)
+    //   if(array.length > 0) {
+    //     array.forEach(item2 => {
+    //       watch(item.activeOptionList, () => {
+    //         if(item.activeOptionList.indexOf(item2[0]) > -1) {
+    //           console.log('選中')
+    //           item2[1].forEach(item3 => {
+    //             const index = meal.value.selectList.map(item4 => item4.id).indexOf(item3)
+    //             if(index > 0) {
+    //               console.log(index)
+    //             }
+    //           })
+    //         } else {
+    //           console.log('沒選中')
+
+    //           item2[1].forEach(item3 => {
+    //             const index = meal.value.selectList.map(item4 => item4.id).indexOf(item3)
+    //             if(index > 0) {
+    //               meal.value.selectList.splice(index, 1)
+    //             }
+    //           })
+    //         }
+    //       })
+    //     })
+    //   }
+    // })
   })
 
-  function select(select, item) {
-    const index = select.activeOptionList.indexOf(item)
+  function select(select, option) {
+    const index = select.activeOptionList.map(item => item.title).indexOf(option.title)
     // +
     if(index < 0) {
-      select.activeOptionList.push(item)
+      select.activeOptionList.push(option)
       while(select.activeOptionList.length > select.max) {
         select.activeOptionList.shift()
       }
@@ -144,8 +174,9 @@
 
     meal.value.note = note.value
     meal.value.count = count.value
+ 
+    let index = cartItems.value.findIndex((cartItem) => cartItem.id == id)
 
-    let index = cartItems.value.findIndex((cartItem) => cartItem.id === id)
     index > -1 ? cartItems.value[index] = meal.value : null
     modalText.value = '已為您修改餐點'
     useRouter().push('/cart')

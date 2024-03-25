@@ -10,13 +10,13 @@
     </div>
     <div class="methods">
       <ul>
-        <li>
+        <li @click="pay('1')" v-if="lineMethod.enabled">
           <img src="/img/line.png" alt="">
         </li>
-        <li>
-          <img src="/img/jko.png" alt="">
+        <li @click="pay('2')">
+          <img src="/img/jko.png" alt="" v-if="jkoMethod.enabled">
         </li>
-        <li @click="pay">
+        <li @click="pay('0')" v-if="cashMethod.enabled">
           <img src="/img/cash.png" alt="">
           <div class="text"> 現金支付 </div>
         </li>
@@ -32,33 +32,58 @@
   import * as Order from "@/apis/order"
 
   let { tableInfo, modalText } = storeToRefs(useCommonStore())
-  let { cartItems, totalPrice } = storeToRefs(useCartStore())
+  let { cartItems, totalPrice, mealCount } = storeToRefs(useCartStore())
 
-  function pay () {
-    if(!tableInfo.value.id || !tableInfo.value.orderToken ) modalText.value = '請先掃描 QR-code'
+  const channels = ref(tableInfo.value.payChannel)
+
+  const cashMethod = ref(JSON.parse(JSON.stringify(channels.value.find((item) => item.channel === 0))))
+  const lineMethod = ref(JSON.parse(JSON.stringify(channels.value.find((item) => item.channel === 1))))
+  const jkoMethod = ref(JSON.parse(JSON.stringify(channels.value.find((item) => item.channel === 2))))
+  
+  function pay (payMethod) {
+    if(!tableInfo.value.tableId || !tableInfo.value.orderToken ) {
+      modalText.value = '請先掃描 QR-code'
+      return
+    }
+
+    if(tableInfo.value.birthdayBonus > 0) {
+      if(mealCount.value < 4) {
+        modalText.value = `目前已經點了${mealCount.value}份主餐，4份主餐以上才能使用生日優惠`;
+        return
+      }
+    }
+
     const data = {
-      tableId: tableInfo.value.id,
+      tableId: tableInfo.value.tableId,
       token: tableInfo.value.orderToken,
 
       storeName: tableInfo.value.storeName,
-      tableNumber: tableInfo.value.number,
-      payMethod: '0',
+      tableNumber: tableInfo.value.tableNumber,
+      payMethod,
+      birthdayBonus: tableInfo.value.birthdayBonus,
       total: totalPrice.value,
       mealList: cartItems.value.map(item => {
         return {
           id: item.id,
           mealName: item.mealName,
           price: item.price,
+          originPrice: item.price,
           count: item.count,
           selectList: item.selectList,
+          mainMeal: item.mainMeal,
           note: item.note
         }
       })
     }
     Order.postDataApi(data).then((res) => {
-      modalText.value = '您選擇現金支付 請至櫃台結帳';
       cartItems.value = []
-      useRouter().push('/')
+      if(payMethod === "0") {
+        modalText.value = '您選擇現金支付 請至櫃台結帳';
+        useRouter().push(`/?tableId=${tableInfo.value.tableId}`)
+      }
+      else location.href = res.data.info.paymentUrl.web
+    }).catch((error) => {
+      modalText.value = error.response.data.detail;
     })
   }
 </script>

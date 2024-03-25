@@ -1,9 +1,9 @@
 import { jsonRequest } from "@/utils/https"
 
 /** 查 */
-export function getDataApi(storeId) {
+export function getDataApi(tableId) {
   return jsonRequest({
-    url: `Categories?storeId=${storeId}`,
+    url: `OrderInfos/GetToken/${tableId}`,
     method: "get",
   })
 }
