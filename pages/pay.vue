@@ -13,8 +13,8 @@
         <li @click="pay('1')" v-if="lineMethod.enabled">
           <img src="/img/line.png" alt="">
         </li>
-        <li @click="pay('2')">
-          <img src="/img/jko.png" alt="" v-if="jkoMethod.enabled">
+        <li @click="pay('2')" v-if="jkoMethod.enabled">
+          <img src="/img/jko.png" alt="">
         </li>
         <li @click="pay('0')" v-if="cashMethod.enabled">
           <img src="/img/cash.png" alt="">
@@ -81,7 +81,11 @@
         modalText.value = '您選擇現金支付 請至櫃台結帳';
         useRouter().push(`/?tableId=${tableInfo.value.tableId}`)
       }
-      else location.href = res.data.info.paymentUrl.web
+      else if(payMethod === "1") {
+        location.href = res.data.info.paymentUrl.web
+      } else if(payMethod === "2") {
+        location.href = res.data.info.paymentUrl
+      }
     }).catch((error) => {
       modalText.value = error.response.data.detail;
     })
