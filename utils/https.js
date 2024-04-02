@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = process.env.NODE_ENV === "development" ? "/api" : "https://preview.uniqcarttest.com/api"
+const baseURL = process.env.NODE_ENV === "development" ? "/myapp/api" : "/myapp/api"
 
 export const jsonRequest = axios.create({
   baseURL,

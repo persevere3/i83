@@ -1,5 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
+  // app: {
+  //   baseURL: '/hub/'
+  // },
+
   devtools: { enabled: true },
 
   modules: ['@pinia/nuxt'],
@@ -9,7 +14,7 @@ export default defineNuxtConfig({
   vite: {
     server: {
       proxy: {
-        "/api": {
+        "/myapp/api": {
           target: "https://preview.uniqcarttest.com",
           ws: true,
           changeOrigin: true,
