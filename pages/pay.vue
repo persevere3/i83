@@ -84,7 +84,7 @@
       else if(payMethod === "1") {
         location.href = res.data.info.paymentUrl.web
       } else if(payMethod === "2") {
-        location.href = res.data.info.paymentUrl
+        location.href = res.data.result_object.payment_url
       }
     }).catch((error) => {
       modalText.value = error.response.data.detail;
