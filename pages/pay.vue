@@ -40,7 +40,12 @@
   const lineMethod = ref(JSON.parse(JSON.stringify(channels.value.find((item) => item.channel === 1))))
   const jkoMethod = ref(JSON.parse(JSON.stringify(channels.value.find((item) => item.channel === 2))))
   
+  let isPaying = false 
+
   function pay (payMethod) {
+    if(isPaying) return
+    isPaying = true
+
     if(!tableInfo.value.tableId || !tableInfo.value.orderToken ) {
       modalText.value = '請先掃描 QR-code'
       return
@@ -76,6 +81,8 @@
       })
     }
     Order.postDataApi(data).then((res) => {
+      isPaying = false
+
       cartItems.value = []
       if(payMethod === "0") {
         modalText.value = '您選擇現金支付 請至櫃台結帳';
