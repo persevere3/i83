@@ -64,6 +64,11 @@
 
       storeName: tableInfo.value.storeName,
       tableNumber: tableInfo.value.tableNumber,
+
+      birthdayAmount: 0,
+      deliveryType: 0,
+      discountAmount: 0,
+
       payMethod,
       birthdayBonus: tableInfo.value.birthdayBonus,
       total: totalPrice.value,
@@ -85,7 +90,7 @@
 
       cartItems.value = []
       if(payMethod === "0") {
-        modalText.value = '您選擇現金支付 請至櫃台結帳';
+        modalText.value = '您選擇現金支付，請先至櫃台結帳，付款完成後會儘快製作您的餐點。';
         useRouter().push(`/?tableId=${tableInfo.value.tableId}`)
       }
       else if(payMethod === "1") {

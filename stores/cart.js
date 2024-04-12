@@ -38,10 +38,11 @@ export const useCartStore = defineStore('cart', () => {
           priceList.push(item.price)
         }
       })
-      priceList.sort((a, b) => a.price - b.price)
       priceList = priceList.map(item => {
         return item > 240 ? 240 : item
       })
+      
+      priceList.sort((a, b) => a - b)
 
       let res = 0
       for(let i = 0; i < bonusCount; i++) {

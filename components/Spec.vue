@@ -21,28 +21,58 @@
     </div>
     <div class="options">
       <ul>
-        <li v-for="item in meal.selectList" :key="item.id"
-          :class="{cancelBorder : item.min == 0}"
-        >
-          <div class="name_notice"> 
-            <div class="name"> {{ item.selectName }}選擇 </div>
-            <div class="notice">
-              <div v-if="item.min === item.max"> 請選擇 {{ item.max }} 個 </div>
-              <div v-else> 請選擇 <span> {{ item.min }} ~ {{ item.max }} </span> 個 </div>
+        <template v-for="item in meal.selectList" :key="item.id">
+          <li v-if="item.min > 0">
+            <div class="name_notice"> 
+              <div class="name"> {{ item.selectName }}選擇 </div>
+              <div class="notice">
+                <div v-if="item.min === item.max"> 請選擇 {{ item.max }} 個 </div>
+                <div v-else> 請選擇 <span> {{ item.min }} ~ {{ item.max }} </span> 個 </div>
+              </div>
             </div>
-          </div>
-          <div class="optionList">
-            <ul>
-              <li v-for="item2 in item.showOptionList" :key="item2.title" @click="select(item, item2)"> 
-                <div class="icon" :class="{active : item.activeOptionList.map(item3 => item3.title).includes(item2.title)}" ></div>
-                <div class="optionText">
-                  <div> {{ item2.title }} </div>
-                  <div v-if="item2.price > 0"> (+ {{ item2.price }}) </div>
+            <div class="optionList">
+              <ul>
+                <li v-for="item2 in item.showOptionList" :key="item2.title" @click="select(item, item2)"> 
+                  <div class="icon" :class="{active : item.activeOptionList.map(item3 => item3.title).includes(item2.title)}" ></div>
+                  <div class="optionText">
+                    <div> {{ item2.title }} </div>
+                    <div v-if="item2.price > 0"> (+ {{ item2.price }}) </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </template>
+
+        <div class="optionalTitle" @click="isShowOptional = !isShowOptional"> 
+          其他選擇
+          <i class="fa-solid fa-angle-down"></i>
+          <img src="@/public/down-svgrepo-com.svg" alt="">
+        </div>
+        <template v-if="isShowOptional">
+          <template v-for="item in meal.selectList" :key="item.id">
+            <li class="cancelBorder" v-if="item.min == 0">
+              <div class="name_notice"> 
+                <div class="name"> {{ item.selectName }}選擇 </div>
+                <div class="notice">
+                  <div v-if="item.min === item.max"> 請選擇 {{ item.max }} 個 </div>
+                  <div v-else> 請選擇 <span> {{ item.min }} ~ {{ item.max }} </span> 個 </div>
                 </div>
-              </li>
-            </ul>
-          </div>
-        </li>
+              </div>
+              <div class="optionList">
+                <ul>
+                  <li v-for="item2 in item.showOptionList" :key="item2.title" @click="select(item, item2)"> 
+                    <div class="icon" :class="{active : item.activeOptionList.map(item3 => item3.title).includes(item2.title)}" ></div>
+                    <div class="optionText">
+                      <div> {{ item2.title }} </div>
+                      <div v-if="item2.price > 0"> (+ {{ item2.price }}) </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          </template>          
+        </template>
 
         <li class="note">
           <div class="name"> 餐點備註 </div>
@@ -81,8 +111,11 @@
   const note = ref('')
   const count = ref(1)
 
+  const isShowOptional = ref(false)
+
   // isAddSpec: true => add(mealList取資訊)，false => update(cartItems取資訊)
   let meal = ref({})
+
   watch(mealList, () => {
     if(mealList.value.length) {
       if(isAddSpec) {
@@ -163,6 +196,9 @@
     let addCartMeal = JSON.parse(JSON.stringify(meal.value))
     addCartMeal.note = note.value
     addCartMeal.count = count.value
+    addCartMeal.selectList.forEach(item => {
+      item.activeOptionList.sort((a, b) => a.order - b.order)
+    })
 
     cartItems.value.push(addCartMeal)
     modalText.value = '已為您添加餐點'
@@ -174,6 +210,9 @@
 
     meal.value.note = note.value
     meal.value.count = count.value
+    meal.value.selectList.forEach(item => {
+      item.activeOptionList.sort((a, b) => a.order - b.order)
+    })
  
     let index = cartItems.value.findIndex((cartItem) => cartItem.id == id)
 

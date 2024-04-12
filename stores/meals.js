@@ -26,7 +26,10 @@ export const useMealsStore = defineStore('meals', () => {
       data = data.filter(item => item.enable)
       data.forEach(item => {
         item.image = 'https://preview.uniqcarttest.com' + item.image
+
+        item.selectList.sort((a, b) => a.order - b.order)
         item.selectList.forEach(item2 => {
+          item2.showOptionList.sort((a, b) => a.order - b.order)
           item2.activeOptionList = []
         })
       })

@@ -74,6 +74,22 @@
   .options {
     padding: 0 13.6vw;
 
+    .optionalTitle {
+      padding: 1.233333vw 1vw;
+      margin-bottom: 2.5vw;
+      border-bottom: 1px solid #666;
+      position: relative;
+
+      img {
+        width: 5vw;
+        height: 5vw;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+    }
+
     > ul {
       > li {
         padding: 3.2vw 5.466666vw;
