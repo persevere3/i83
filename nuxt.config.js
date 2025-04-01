@@ -7,18 +7,18 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: ['@pinia/nuxt'],
+  modules: ["@pinia/nuxt"],
   pinia: {
-    storesDirs: ['./stores/**', './custom-folder/stores/**'],
+    storesDirs: ["./stores/**", "./custom-folder/stores/**"]
   },
   vite: {
     server: {
       proxy: {
         "/myapp/api": {
-          target: "https://preview.uniqcarttest.com",
+          target: "http://majoyreesa.com/",
           ws: true,
-          changeOrigin: true,
-        },
+          changeOrigin: true
+        }
       }
     }
   }
